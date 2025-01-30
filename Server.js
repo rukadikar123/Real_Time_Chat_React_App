@@ -17,7 +17,14 @@ const io=new Server (server,{
 let users={}
 
 io.on("connection" ,(socket)=>{
-    console.log(`new user connected : ${socket.id}`);
+    console.log(`new user connected : ${socket.id}`)
+
+    socket.on("new-user",(userName)=>{
+        users[userName]=socket.id
+        io.emit("user-list", Object.keys(users))
+    });
+
+    
     
 })
 
