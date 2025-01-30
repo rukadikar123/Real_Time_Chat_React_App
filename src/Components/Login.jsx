@@ -1,20 +1,19 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Socket } from "socket.io";
 
-function Login() {
-    const [userName, setUserName] = useState("");
+function Login({userName , setUserName , socket}) {
+    
 
     const navigate = useNavigate();
   
     const handleLogin = () => {
       if(userName.trim()){
         
-        Socket.emit("new-user",userName)
+        socket.emit("new-user",userName)
         navigate("/homepage");
       }
       
-      setUserName("")
+      
       
     };
   return (

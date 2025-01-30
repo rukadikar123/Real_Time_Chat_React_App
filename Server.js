@@ -24,8 +24,18 @@ io.on("connection" ,(socket)=>{
         io.emit("user-list", Object.keys(users))
     });
 
-    
-    
+
+
+    socket.on("disconnect", ()=>{
+        const user=Object.keys(users).find(key=> users[key]===socket.id)
+        if(user){
+            delete users[user]
+            io.emit("user-list",Object.keys(users) )
+        }
+        console.log("User disconnected: ", socket.id);
+    })
+
+   
 })
 
 
