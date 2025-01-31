@@ -11,7 +11,7 @@ function Homepage() {
 
   return (
     <>
-      <div className="w-full flex gap-4">
+      <div className="w-full flex ">
         <Sidebar newContact={newContact}  setNewContact={setNewContact}/>
         <Chat   />
       </div>
