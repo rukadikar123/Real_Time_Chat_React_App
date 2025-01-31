@@ -14,20 +14,21 @@ function Chat() {
 
   useEffect(() => {
     socket.on("chat-message", (data) => {
-      if (
-        (data.userName === userName && data.to === currentChat) ||
-        (data.userName === currentChat && data.to === userName)
-      ) {
-        return; // Ignore duplicate message when chatting with self
-      }
-      console.log("Received message:", data);
-      setMessages((prev) => [...prev, data]);
+        console.log("Received message:", data);
+      
+        setMessages((prevmsg)=>(
+          {
+            ...prevmsg,
+            [data.userName]:[...(prevmsg[data.userName] || [] ), data ]
+          }
+        ))
+        
     });
 
     return () => {
       socket.off("chat-message");
     };
-  }, [socket ,currentChat, userName]);
+  }, [socket, setMessages]);
 
   console.log(messages);
 
@@ -35,7 +36,10 @@ function Chat() {
     if (newMessage.trim() && currentChat) {
       const ChatMessage = { userName, newMessage, to: currentChat };
       socket.emit("send-chat-message", ChatMessage);
-      setMessages((prev) => [...prev, ChatMessage]);
+      setMessages((prevmsg)=>({
+        ...prevmsg,
+        [currentChat]:[...(prevmsg[currentChat] || []), ChatMessage]
+      }))
       setNewMessage("");
       console.log(`message send to : ${currentChat}`);
     }
@@ -50,20 +54,13 @@ function Chat() {
         </div>
         <div className="h-full overflow-y-auto flex flex-col p-2">
           {currentChat &&
-            messages
-              .filter(
-                (message) =>
-                  (message.userName === userName &&
-                    message.to === currentChat) ||
-                  (message.userName === currentChat && message.to === userName)
-              )
-              .map((message, id) => (
+            (messages[currentChat] || []).map((message, id) => (
                 <div
                   key={id}
                   className={`p-2 my-1 rounded-lg max-w-max ${
                     message.userName === userName
                       ? "bg-blue-600 text-white  ml-auto "
-                      : "bg-gray-700  text-gray-200 mr-auto "
+                      : "bg-gray-700  text-gray-200 "
                   }`}
                 >
                   <strong className="text-gray-100">{message.userName}</strong>:{" "}
