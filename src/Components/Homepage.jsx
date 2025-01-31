@@ -6,13 +6,13 @@ import Chat from "./Chat";
 
 function Homepage() {
 
-  const [newContact, setNewContact] = useState("");
+  
  
 
   return (
     <>
       <div className="w-full flex ">
-        <Sidebar newContact={newContact}  setNewContact={setNewContact}/>
+        <Sidebar/>
         <Chat   />
       </div>
     </>

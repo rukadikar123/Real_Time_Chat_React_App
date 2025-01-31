@@ -12,6 +12,7 @@ export const ChatProvider = ({ children }) => {
   const [currentChat, setCurrentChat] = useState(null);
   const [messages, setMessages] = useState([]);
 
+
   useEffect(() => {
     socket.on("user-list", (userList) => {
       console.log("User list received:", userList);
