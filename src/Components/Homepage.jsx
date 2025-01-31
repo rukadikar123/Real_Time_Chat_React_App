@@ -4,15 +4,16 @@ import Chat from "./Chat";
 
 
 
-function Homepage({ userName,socket, setUserName }) {
+function Homepage() {
+
   const [newContact, setNewContact] = useState("");
-  const [currentChat, setCurrentChat] = useState(null);
+ 
 
   return (
     <>
       <div className="w-full flex gap-4">
         <Sidebar newContact={newContact}  setNewContact={setNewContact}/>
-        <Chat userName={userName} socket={socket} setUserName={setUserName}  currentChat={currentChat} setCurrentChat={setCurrentChat} />
+        <Chat   />
       </div>
     </>
   );

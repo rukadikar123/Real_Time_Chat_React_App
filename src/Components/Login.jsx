@@ -1,21 +1,19 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useChatContext } from "../Context/ChatContext";
 
-function Login({userName , setUserName , socket}) {
-    
+function Login() {
+  const { userName, socket , setUserName} = useChatContext();
+ 
+ 
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
-  
-    const handleLogin = () => {
-      if(userName.trim()){
-        
-        socket.emit("new-user",userName)
-        navigate("/homepage");
-      }
-      
-      
-      
-    };
+  const handleLogin = () => {
+    if (userName.trim()) {
+      socket.emit("new-user", userName);
+      navigate("/homepage");
+    }
+  };
   return (
     <>
       <div>
