@@ -28,7 +28,6 @@ export const ChatProvider = ({ children }) => {
     };
   }, []);
 
-
   //hanfle logout function
   const handleLogout = (navigate) => {
     socket.emit("logout"); // Emit a "logout" event to the server
