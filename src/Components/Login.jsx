@@ -3,15 +3,17 @@ import { useNavigate } from "react-router-dom";
 import { useChatContext } from "../Context/ChatContext";
 
 function Login() {
-  const { userName, socket , setUserName} = useChatContext();
+  const { userName, socket , setUserName} = useChatContext();  // Retrieve Data from context
  
  
   const navigate = useNavigate();
 
+
+  // handle user login
   const handleLogin = () => {
     if (userName.trim()) {
-      socket.emit("new-user", userName);
-      navigate("/homepage");
+      socket.emit("new-user", userName);   // Emit an event to the server with the "new-user" event name and send userName
+      navigate("/homepage");              //redirect to homepage
     }
   };
   return (

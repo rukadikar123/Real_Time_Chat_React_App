@@ -11,8 +11,8 @@ function Chat() {
     socket,
     setMessages,
     messages,
-    handleLogout
-  } = useChatContext();
+    handleLogout,
+  } = useChatContext(); // Retrieve data from context
 
   useEffect(() => {
     socket.on("chat-message", (data) => {
@@ -20,21 +20,25 @@ function Chat() {
 
       setMessages((prevmsg) => ({
         ...prevmsg,
-        [data.userName]: [...(prevmsg[data.userName] || []), data],
+        [data.userName]: [...(prevmsg[data.userName] || []), data], // Append new message to the correct user
       }));
     });
 
+    // cleanup function to remove the event listener when the component unmounts
     return () => {
       socket.off("chat-message");
     };
-  }, [socket, setMessages]);
+  }, [socket, setMessages]); // Dependencies: runs when socket or setMessages changes
 
-  console.log(messages);
+  // console.log(messages);
 
+  // handle Send messages
   const handleSendMessage = () => {
     if (newMessage.trim() && currentChat) {
-      const ChatMessage = { userName, newMessage, to: currentChat };
-      socket.emit("send-chat-message", ChatMessage);
+      const ChatMessage = { userName, newMessage, to: currentChat }; // create object representing the chat message
+      socket.emit("send-chat-message", ChatMessage); // Emit the message to the server via socket.io
+
+      // Update the local messages state to include the new message
       setMessages((prevmsg) => ({
         ...prevmsg,
         [currentChat]: [...(prevmsg[currentChat] || []), ChatMessage],
@@ -43,16 +47,22 @@ function Chat() {
       console.log(`message send to : ${currentChat}`);
     }
   };
-  const navigate = useNavigate();
 
- 
+  const navigate = useNavigate();
 
   return (
     <>
       <div className="flex flex-col bg-gray-800 justify-between gap-6 w-full p-4">
         <div className="flex justify-between items-center gap-4 ">
-          <h1 className="text-lg text-emerald-300 bg-gray-600 p-2 rounded-lg">{userName}</h1>
-          <button onClick={()=>handleLogout(navigate)} className="bg-blue-500 text-amber-200 p-2 rounded-lg">Logout</button>
+          <h1 className="text-lg text-emerald-300 bg-gray-600 p-2 rounded-lg">
+            {userName}
+          </h1>
+          <button
+            onClick={() => handleLogout(navigate)}
+            className="bg-blue-500 text-amber-200 p-2 rounded-lg"
+          >
+            Logout
+          </button>
         </div>
         <div className="w-full border-1 border-amber-100 "></div>
 

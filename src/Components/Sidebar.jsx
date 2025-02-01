@@ -2,12 +2,12 @@ import { useChatContext } from "../Context/ChatContext";
 import { FaSearch } from "react-icons/fa";
 
 function Sidebar() {
-  const { currentChat, setCurrentChat, userName, users } = useChatContext();
+  const { currentChat, setCurrentChat, userName, users } = useChatContext();    // Retrieve data from context
 
-  console.log(users);
-  console.log(currentChat);
+  // console.log(users);
+  // console.log(currentChat);
 
-  const filteredUsers = users.filter((user) => user !== userName);
+  const filteredUsers = users.filter((user) => user !== userName);   // Filter out the current user from the list of users
 
   return (
     <>

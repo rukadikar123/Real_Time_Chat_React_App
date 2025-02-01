@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import Sidebar from "./Sidebar";
 import Chat from "./Chat";
 
@@ -9,7 +8,7 @@ function Homepage() {
   return (
     <>
       <div className="w-full flex ">
-        <Sidebar/>
+        <Sidebar/>            
         <Chat   />
       </div>
     </>
