@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 function Chat() {
   const {
     userName,
-    setUserName,
     newMessage,
     setNewMessage,
     currentChat,

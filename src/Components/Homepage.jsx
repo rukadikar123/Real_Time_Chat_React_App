@@ -6,9 +6,6 @@ import Chat from "./Chat";
 
 function Homepage() {
 
-  
- 
-
   return (
     <>
       <div className="w-full flex ">
