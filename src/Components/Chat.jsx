@@ -1,15 +1,18 @@
 import React, { useEffect } from "react";
 import { useChatContext } from "../Context/ChatContext";
+import { useNavigate } from "react-router-dom";
 
 function Chat() {
   const {
     userName,
+    setUserName,
     newMessage,
     setNewMessage,
     currentChat,
     socket,
     setMessages,
     messages,
+    handleLogout
   } = useChatContext();
 
   useEffect(() => {
@@ -41,17 +44,18 @@ function Chat() {
       console.log(`message send to : ${currentChat}`);
     }
   };
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+
+ 
 
   return (
     <>
       <div className="flex flex-col bg-gray-800 justify-between gap-6 w-full p-4">
-        <div className="flex flex-col gap-3">
-          <div>
-            <h1>{userName}</h1>
-          </div>
-          <div className="w-full border border-gray-200"></div>
+        <div className="flex justify-between items-center gap-4 ">
+          <h1 className="text-lg text-emerald-300 bg-gray-600 p-2 rounded-lg">{userName}</h1>
+          <button onClick={()=>handleLogout(navigate)} className="bg-blue-500 text-amber-200 p-2 rounded-lg">Logout</button>
         </div>
+        <div className="w-full border-1 border-amber-100 "></div>
 
         <div className="h-full overflow-y-auto flex flex-col p-2">
           {currentChat &&

@@ -41,7 +41,16 @@ io.on("connection", (socket) => {
     });
   });
 
-
+socket.on("logout",()=>{
+  const user=Object.keys(users).find((key)=> users[key] === socket.id)
+  if(user){
+    delete users[user]
+    io.emit("user-list", Object.keys(users));
+  }
+  socket.disconnect(true)
+  console.log("User disconnected: ", socket.id);
+  
+})
 
   socket.on("disconnect", () => {
     const user = Object.keys(users).find((key) => users[key] === socket.id);

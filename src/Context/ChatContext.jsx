@@ -27,6 +27,21 @@ export const ChatProvider = ({ children }) => {
     };
   }, []);
 
+  const handleLogout=(navigate)=>{
+    socket.emit("logout")
+    socket.disconnect();
+    setUsers((prevuser)=> prevuser.filter((user)=> user !==userName))
+    setMessages((prevmsg)=>{
+      const newmessages={...prevmsg};
+      delete newmessages[userName];
+      return newmessages
+    })
+    setUserName("");
+    setCurrentChat(null)
+    navigate("/")
+
+  }
+
 
   return (
     <ChatContext.Provider
@@ -34,6 +49,7 @@ export const ChatProvider = ({ children }) => {
         userName,
         setUserName,
         socket,
+        handleLogout,
         users,
         newMessage,
         setNewMessage,
