@@ -10,7 +10,7 @@ const server = http.createServer(app); // Create an HTTP server using the Expres
 // Initialize a new Socket.io server attached to the HTTP server
 const io = new Server(server, {
   cors: {
-    origin: "*", // The URL of the front-end
+    origin: "https://peppy-cobbler-174f4a.netlify.app/", // The URL of the front-end
     methods: ["GET", "POST"], // HTTP methods allowed for the communication
   },
 });
