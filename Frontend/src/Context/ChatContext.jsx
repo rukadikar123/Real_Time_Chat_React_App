@@ -1,7 +1,10 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
-const socket = io("https://real-time-chat-react-app-1.onrender.com");
+const socket = io("https://real-time-chat-react-app-1.onrender.com", {
+  transports: ["websocket", "polling"],
+  withCredentials: true,
+});
 
 const ChatContext = createContext();
 
