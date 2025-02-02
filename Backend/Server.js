@@ -4,13 +4,18 @@ import cors from "cors";
 import { Server } from "socket.io";
 
 const app = express(); // Create an Express app
+
+app.get('/', (req, res) => {
+  res.send('Backend is running!');
+});
+
 app.use(cors()); // Enable Cross-Origin Resource Sharing (CORS) to allow requests from specific origins
 const server = http.createServer(app); // Create an HTTP server using the Express app
 
 // Initialize a new Socket.io server attached to the HTTP server
 const io = new Server(server, {
   cors: {
-    origin: "https://peppy-cobbler-174f4a.netlify.app/", // The URL of the front-end
+    origin: "https://679f165e64c88c2319420fba--peppy-cobbler-174f4a.netlify.app/", // The URL of the front-end
     methods: ["GET", "POST"], // HTTP methods allowed for the communication
   },
 });
