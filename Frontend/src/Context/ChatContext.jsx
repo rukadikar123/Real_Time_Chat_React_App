@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
-const socket = io(import.meta.VITE_BACKEND_URL);
+const socket = io("https://real-time-chat-react-app-1.onrender.com/");
 
 const ChatContext = createContext();
 
