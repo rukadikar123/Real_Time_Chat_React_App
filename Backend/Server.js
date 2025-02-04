@@ -15,7 +15,7 @@ const server = http.createServer(app); // Create an HTTP server using the Expres
 // Initialize a new Socket.io server attached to the HTTP server
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173/", // The URL of the front-end
+    origin: "https://realtimechatreactapp0.netlify.app", // The URL of the front-end
     methods: ["GET", "POST"], // HTTP methods allowed for the communication
   },
 });

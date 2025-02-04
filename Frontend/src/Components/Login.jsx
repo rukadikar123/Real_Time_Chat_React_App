@@ -26,6 +26,7 @@ function Login() {
               className="w-full p-2 border rounded-lg mb-4"
               value={userName}
               onChange={(e) => setUserName(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleLogin()}
             />
             <button
               onClick={handleLogin}
