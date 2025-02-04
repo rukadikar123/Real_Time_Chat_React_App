@@ -1,13 +1,20 @@
+import { useState } from "react";
 import { useChatContext } from "../Context/ChatContext";
 import { FaSearch } from "react-icons/fa";
 
 function Sidebar() {
+  const [searchTerm,setSearchTerm]=useState("")
+
   const { currentChat, setCurrentChat, userName, users } = useChatContext(); // Retrieve data from context
 
   // console.log(users);
   // console.log(currentChat);
 
-  const filteredUsers = users.filter((user) => user !== userName); // Filter out the current user from the list of users
+  const filteredUsers=users.filter((user)=>(
+    user !== userName &&                                            // Filter out the current user from the list of users
+    user.toLowerCase().includes(searchTerm.trim().toLowerCase())
+  ))
+ 
 
   return (
     <>
@@ -18,6 +25,8 @@ function Sidebar() {
             type="text"
             placeholder="Search"
             className="outline-none w-full  p-1 bg-transparent"
+            onChange={(e)=> setSearchTerm(e.target.value)}
+            value={searchTerm}
           />
           <FaSearch />
         </div>

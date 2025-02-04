@@ -5,8 +5,8 @@ import { Server } from "socket.io";
 
 const app = express(); // Create an Express app
 
-app.get('/', (req, res) => {
-  res.send('Backend is running!');
+app.get("/", (req, res) => {
+  res.send("Backend is running!");
 });
 
 app.use(cors()); // Enable Cross-Origin Resource Sharing (CORS) to allow requests from specific origins
@@ -15,7 +15,7 @@ const server = http.createServer(app); // Create an HTTP server using the Expres
 // Initialize a new Socket.io server attached to the HTTP server
 const io = new Server(server, {
   cors: {
-    origin:"https://realtimechatreactapp0.netlify.app", // The URL of the front-end
+    origin: "http://localhost:5173/", // The URL of the front-end
     methods: ["GET", "POST"], // HTTP methods allowed for the communication
   },
 });
@@ -59,6 +59,7 @@ io.on("connection", (socket) => {
     if (user) {
       delete users[user]; // Remove the user from the `users` object
       io.emit("user-list", Object.keys(users)); // Broadcast the updated list of connected users to all clients
+      io.emit("remove-user-messages", user);
     }
     socket.disconnect(true); // Disconnect the socket
     console.log("User disconnected: ", socket.id);
@@ -76,7 +77,7 @@ io.on("connection", (socket) => {
 });
 
 // Start the HTTP server and listen on port 3000
-const port = process.env.PORT || 10000
+const port = 3000;
 server.listen(port, () => {
   console.log(`server is running on port ${port}`);
 });

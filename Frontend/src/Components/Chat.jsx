@@ -18,10 +18,13 @@ function Chat() {
     socket.on("chat-message", (data) => {
       console.log("Received message:", data);
 
-      setMessages((prevmsg) => ({
-        ...prevmsg,
-        [data.userName]: [...(prevmsg[data.userName] || []), data], // Append new message to the correct user
-      }));
+      if (data.to && data.userName) {
+        setMessages((prevmsg) => ({
+          ...prevmsg,
+          [data.to]: [...(prevmsg[data.to] || []), data], // Append new message to the reciever
+          [data.userName]: [...(prevmsg[data.userName] || []), data], // Append new message to the correct user
+        }));
+      }
     });
 
     // cleanup function to remove the event listener when the component unmounts
@@ -30,7 +33,7 @@ function Chat() {
     };
   }, [socket, setMessages]); // Dependencies: runs when socket or setMessages changes
 
-  // console.log(messages);
+  console.log(messages);
 
   // handle Send messages
   const handleSendMessage = () => {
@@ -38,11 +41,6 @@ function Chat() {
       const ChatMessage = { userName, newMessage, to: currentChat }; // create object representing the chat message
       socket.emit("send-chat-message", ChatMessage); // Emit the message to the server via socket.io
 
-      // Update the local messages state to include the new message
-      setMessages((prevmsg) => ({
-        ...prevmsg,
-        [currentChat]: [...(prevmsg[currentChat] || []), ChatMessage],
-      }));
       setNewMessage("");
       console.log(`message send to : ${currentChat}`);
     }
@@ -89,6 +87,7 @@ function Chat() {
             className="flex-1 p-2 border rounded-lg"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
           />
           <button
             onClick={handleSendMessage}

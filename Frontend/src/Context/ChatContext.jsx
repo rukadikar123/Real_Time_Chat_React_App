@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
-const socket = io("https://real-time-chat-react-app-1.onrender.com", {
+const socket = io("http://localhost:3000/", {
   transports: ["websocket", "polling"],
   withCredentials: true,
 });
@@ -25,24 +25,41 @@ export const ChatProvider = ({ children }) => {
       setUsers(userList);
     });
 
+    socket.on("remove-user-messages", (loggedOutUser) => {
+      setMessages((prevMessages) => {
+        const updatedMessages = { ...prevMessages };
+        delete updatedMessages[loggedOutUser]; // Remove messages for the logged-out user
+        return updatedMessages;
+      });
+    });
+
     // Cleanup function to remove the "user-list" event listener when the component unmounts
     return () => {
       socket.off("user-list");
+      socket.off("remove-user-messages");
     };
   }, []);
+  
 
   //hanfle logout function
   const handleLogout = (navigate) => {
     socket.emit("logout"); // Emit a "logout" event to the server
-    socket.disconnect(); // Disconnect the socket
-    setUsers((prevuser) => prevuser.filter((user) => user !== userName)); // Update the users list by removing the current user from the list
+    socket.disconnect(); //  Disconnect the socket
 
     // Remove the current user's messages from the state
-    setMessages((prevmsg) => {
-      const newmessages = { ...prevmsg };
-      delete newmessages[userName];
-      return newmessages;
+    setMessages((prevMessages) => {
+      const updatedMessages = { ...prevMessages };
+    
+      // Remove messages associated with the current user and their active chat
+      delete updatedMessages[userName];
+      delete updatedMessages[currentChat];
+    
+      return updatedMessages;
     });
+
+    setUsers((prevuser) => prevuser.filter((user) => user !== userName)); // Update the users list by removing the current user from the list
+
+    // setMessages({});
     setUserName("");
     setCurrentChat(null); // Reset the current chat to `null` since the user is logging out
     navigate("/"); // Redirect the user to the login page
